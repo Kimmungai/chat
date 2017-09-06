@@ -16,6 +16,7 @@ class CreateBidCompaniesTable extends Migration
         Schema::create('bid_companies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned();
             $table->string('price_agreed')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->string('commission_percentage')->nullable();

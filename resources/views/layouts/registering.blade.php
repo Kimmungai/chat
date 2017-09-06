@@ -6,6 +6,8 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="{{url('/css/main.css')}}">
         <!--<script src="{{url('/js/modernizr-custom.js')}}"></script>-->
         <script src="{{url('js/jquery-3.2.1.min.js')}}"></script>
@@ -85,6 +87,7 @@
         </nav>
     @yield('content')
     <!-- chat starts here -->
+@if(Auth::user())
 <div class="chat">
     <div id="toggle-chat" class="chat-btn">
         <a class="but" href="#">
@@ -137,6 +140,7 @@
         </div>
     </div>
 </div><!--chat ends here-->
+@endif
     <footer>
         <link href="http://hiremitsumori.com/css/style.css" rel="stylesheet" media="screen,print">
         <link href="http://hiremitsumori.com/css/bootstrap-grid.min.css" rel="stylesheet" media="screen,print">

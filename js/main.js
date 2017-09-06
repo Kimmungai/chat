@@ -1,9 +1,9 @@
 $(document).ready(function(){
-    
+
     // time and date pickers
 
                 $(".timepicker").timepicker({ 'timeFormat': 'H:i' });
-                
+
                 $( ".datepicker" ).datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeMonth: true,
@@ -17,19 +17,19 @@ $(document).ready(function(){
 	            showMonthAfterYear: true,
 	            yearSuffix: "年"
                 });
-                
-    
-    
+
+
+
   // navigation toggles
   $(".menu").on("click", function(event){
     event.preventDefault();
     if($(this).parent().hasClass("open") != true){
-        $(this).parent().addClass("open"); 
+        $(this).parent().addClass("open");
     } else if ($(this).parent().hasClass("open") == true){
-       $(this).parent().removeClass("open");  
+       $(this).parent().removeClass("open");
     }
   });
-    
+
   $(".toggle").on("click", function(event){
     event.preventDefault();
     if($(".submenu").hasClass("open") != true){
@@ -37,25 +37,25 @@ $(document).ready(function(){
     } else if ($(".submenu").hasClass("open") == true){
         $(".submenu").removeClass("open");
     }
-  });   
-    
+  });
+
   // chat
   $("#toggle-chat").on("click", function(event){
       event.preventDefault();
       $(".chat-open").fadeIn("fast");
   });
-    
+
   $(".contact-list a").on("click", function(event){
       event.preventDefault();
       $(".contact-list").animate({marginLeft: "-240px"});
       $(".contact-message .scroll").animate({scrollTop: $('.contact-message .scroll').get(0).scrollHeight}, 2000);
   })
-    
+
   $("a.back").on("click", function(event){
       event.preventDefault();
       $(".contact-list").animate({marginLeft: "0"});
   })
-  
+
   $("a.close").on("click", function(event){
       event.preventDefault();
       $(".chat-open").fadeOut("fast");

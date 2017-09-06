@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company_name');
-            $table->string('company_type')->nullable();
+            $table->string('company_type')->default(0);
             $table->string('company_name_furigana');
             $table->string('first_name');
             $table->string('first_name_furigana');
@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('user_category');
             $table->string('email_token')->index()->nullable();
             $table->boolean('is_admin')->default(0);
+            $table->integer('admin_approved')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

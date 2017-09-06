@@ -1,6 +1,9 @@
 @extends('layouts.hire_company')
 
 @section('content')
+<div class="hero">
+    <h2>注文内容</h2>
+</div>
 <ol class="breadcrumb">
     <li><a href="/">トップ</a></li>
     <li><a href="/company_order_view_all">注文履歴一覧</a></li>
@@ -41,6 +44,9 @@
 </div>
 <div class="place-bid">
     <h3>御社の提供</h3>
+    @if (Session::has('bid-successful'))
+    <h2>{{ Session::get('bid-successful') }}</h2>
+    @endif
     <form action="/bid_with_message" method="POST">
         {{ csrf_field() }}
         <input type="hidden" name="order-num" value="{{$orders[0]['id']}}" />

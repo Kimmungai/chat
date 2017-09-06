@@ -6,13 +6,15 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="{{url('/css/main.css')}}">
         <!--<script src="{{url('/js/modernizr-custom.js')}}"></script>-->
         <script src="{{url('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{url('js/jquery-ui.min.js')}}"></script>
         <script src="{{url('js/jquery.timepicker.min.js')}}"></script>
     </head>
-<body>
+<bodys>
   <nav>
       <link href="http://hiremitsumori.com/css/style.css" rel="stylesheet" media="screen,print">
       <link href="http://hiremitsumori.com/css/bootstrap-grid.min.css" rel="stylesheet" media="screen,print">
@@ -86,6 +88,7 @@
 </nav>
   @yield('content')
   <!-- chat starts here -->
+@if(Auth::user())
 <div class="chat">
     <div id="toggle-chat" class="chat-btn">
         <a class="but" href="#">
@@ -96,8 +99,8 @@
         <div class="chat-container">
         <div class="contact-list">
             <header><h5>メッセージ</h5><a href="#" class="pull-right close"><i class="fa fa-times" aria-hidden="true"></i></a></header>
-            <ul>
-                <li><a class="on" href="#">株式会社2<span class="unread">2</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+            <ul id="chatting-companies">
+                <!--<li><a class="on" href="#">株式会社2<span class="unread">2</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="off" href="#">株式会社3<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="on" href="#">株式会社4<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="off" href="#">株式会社5<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
@@ -106,7 +109,7 @@
                 <li><a class="off" href="#">株式会社2<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="off" href="#">株式会社2<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="off" href="#">株式会社3<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
-                <li><a class="off" href="#">株式会社4<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                <li><a class="off" href="#">株式会社4<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>-->
             </ul>
         </div>
         <div class="contact-message">
@@ -138,6 +141,7 @@
         </div>
     </div>
 </div><!--chat ends here-->
+@endif
   <footer>
       <link href="http://hiremitsumori.com/css/style.css" rel="stylesheet" media="screen,print">
       <link href="http://hiremitsumori.com/css/bootstrap-grid.min.css" rel="stylesheet" media="screen,print">
@@ -165,6 +169,7 @@
   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
       {{ csrf_field() }}
   </form>
+  <script src="{{url('js/main.js')}}"></script>
   <script>
     function logout()
     {
@@ -174,7 +179,22 @@
       event.preventDefault();
       $('#chat').click();
     });
+
+    /* chat starts here*/
+    function checkMessages(){
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.post("/check-messages",
+          {
+          },
+          function(data,status){
+            alert(data)
+    });
+    }
+    /* chat ends here*/
   </script>
-  <script src="{{url('js/main.js')}}"></script>
 </body>
 </html>

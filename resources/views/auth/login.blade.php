@@ -65,13 +65,16 @@
         </div>
     </div>
 </div>-->
+<div class="hero">
+    <h2>ログイン</h2>
+</div>
 <div class="container form-register" ng-controller="ConfirmCtrl">
-            <h2>ログイン</h2>
+            <h2> ログイン </h2>
             <form name="formConfirm" ng-submit="onSubmit(formConfirm.$valid)" novalidate="novalidate" method="POST" action="{{ url('/login') }}">
               {{ csrf_field() }}
                 <!-- Password input -->
             <div class="full">
-                <label>メールアドレス</label>
+                <label> メールアドレス </label>
                 <input type="email"
                        name="email"
                        required="required"

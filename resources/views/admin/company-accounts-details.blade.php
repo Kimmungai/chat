@@ -65,17 +65,29 @@
                             </tr>
                             <tr>
                                <th>アカウント種類</th>
+                               @if($data[0]['company_type']==0)
                                <td>A (13%)</td>
+                               @elseif($data[0]['company_type']==1)
+                               <td>A (15%)</td>
+                               @elseif($data[0]['company_type']==2)
+                               <td>A (20%)</td>
+                               @elseif($data[0]['company_type']==3)
+                               <td>A (10%)</td>
+                               @endif
                                <td><select name="company_type">
-                                   <option value="0">A (13%)</option>
-                                   <option value="1">B (15%)</option>
-                                   <option value="2">C (20%)</option>
-                                   <option value="3">S (10%)</option>
+                                   <option value="0" <?php if($data[0]['company_type']==0){echo 'selected';}?>>A (13%)</option>
+                                   <option value="1" <?php if($data[0]['company_type']==1){echo 'selected';}?>>B (15%)</option>
+                                   <option value="2" <?php if($data[0]['company_type']==2){echo 'selected';}?>>C (20%)</option>
+                                   <option value="3" <?php if($data[0]['company_type']==3){echo 'selected';}?>>S (10%)</option>
                                    </select></td>
                             </tr>
                             <tr>
                                <th>アカウント状態</th>
+                               @if($data[0]['admin_approved']==0)
                                <td>保留</td>
+                               @elseif($data[0]['admin_approved']==1)
+                               <td>確認済み</td>
+                               @endif
                                <td><select name="admin_approved">
                                    <option value="0" <?php if($data[0]['admin_approved']==0 || $data[0]['admin_approved']==2){echo "selected='selected'";} ?>>保留</option>
                                    <option value="1" <?php if($data[0]['admin_approved']==1 ){echo  "selected='selected'";} ?>>確認済み</option>

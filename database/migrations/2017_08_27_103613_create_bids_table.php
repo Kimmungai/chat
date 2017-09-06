@@ -17,6 +17,8 @@ class CreateBidsTable extends Migration
             $table->increments('id');
             $table->integer('bid_company_id')->unsigned()->index();
             $table->string('price');
+            $table->string('company_name');
+            $table->text('message')->nullable();
             $table->timestamps();
         });
     }

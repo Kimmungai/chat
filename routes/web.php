@@ -26,6 +26,8 @@ Route::post('update_password','users@update_password')->middleware('auth');
 Route::get('cancel_order/{order_id}','users@cancel_order')->middleware('client');
 Route::post('choose_company','users@choose_company')->middleware('client');
 
+Route::post('check-messages','users@check_messages')->middleware('auth');
+
 Route::get('new_order_check', function () {
     return view('new_order_check');
 })->middleware('client');
@@ -35,13 +37,12 @@ Route::post('/new_order','orders@new_order_confirm')->middleware('client');
 Route::get('/save_new_order','orders@create')->middleware('client');
 
 Route::post('/registering','users@create');
+Route::get('registering', 'users@registering');
 
 Route::get('register_confirmation', function () {
     return view('register_confirmation');
 });
-Route::get('registering', function () {
-    return view('registering');
-});
+
 
 Route::get('company_order_view_all','orders@all_orders')->middleware('company');
 Route::post('bid','orders@bid')->middleware('company');
@@ -81,9 +82,10 @@ Route::get('admin-trash', 'admin@deleted_companies')->middleware('admin');
 
 Route::get('admin-trash-details/{user_id}','admin@deleted_company_details')->middleware('admin');
 
-Route::post('restore_company_record','admin@restore_company_record');
+Route::post('restore_company_record','admin@restore_company_record')->middleware('admin');
 
-Route::post('delete_record_permanently','admin@delete_record_permanently');
+Route::post('delete_record_permanently','admin@delete_record_permanently')->middleware('admin');
+
 
 Route::get('admin-message-hist', function () {
     return view('admin.message-hist');

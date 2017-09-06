@@ -141,9 +141,11 @@ class admin extends Controller
       {
         $client_email[$count]=User::where('id','=',$order['user_id'])->value('email');
         $client_name[$count]=User::where('id','=',$order['user_id'])->value('company_name');
+
         $seller_id=BidCompany::where('order_id','=',$order['id'])->value('user_id');
         $seller_name[$count]=User::where('id','=',$seller_id)->value('company_name');
         $seller_email[$count]=User::where('id','=',$seller_id)->value('email');
+
         $count++;
       }
       return view('admin.transactions',compact('data','client_email','client_name','seller_name','seller_email'));
@@ -151,8 +153,15 @@ class admin extends Controller
     public function transaction_details($order_id)
     {
       $data=Order::with('user')->where('id','=',$order_id)->get();
-      $seller_id=BidCompany::where('order_id','=',$order_id)->whereNotNull('price_agreed')->value('user_id');
-      $seller=User::where('id','=',$seller_id)->get();
+      if(count(BidCompany::all()))
+      {
+        $seller_id=BidCompany::where('order_id','=',$order_id)->whereNotNull('price_agreed')->value('user_id');
+        $seller=User::where('id','=',$seller_id)->get();
+      }
+      else
+      {
+        $seller=0;
+      }
       return view('admin.transactions-details',compact('data','seller'));
     }
     public function deleted_companies()

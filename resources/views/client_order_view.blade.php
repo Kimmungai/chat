@@ -1,6 +1,9 @@
 @extends('layouts.hire')
 
 @section('content')
+<div class="hero">
+    <h2>注文内容</h2>
+</div>
 <ol class="breadcrumb">
     <li><a href="/">トップ</a></li>
     <li><a href="/client_order_view_all">注文履歴一覧</a></li>

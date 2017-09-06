@@ -10,7 +10,7 @@ use App\Bid;
 use Auth;
 use DB;
 use App\User;
-
+use Session;
 class orders extends Controller
 {
     public function new_order_confirm(Request $request)
@@ -41,7 +41,6 @@ class orders extends Controller
       $new_order ->car_type=$request->old('car_type');
       $new_order ->remarks=$request->old('details');
       $new_order ->bid_id=$user_id;
-
       $new_order->save();
       $all_user_orders=Order::with(['BidCompany','Bid'])->where('user_id', '=', $user_id)->where('bid_status','<>',2)->orderBy('id','Desc')->get();
       return view('client_order_view_all', compact('all_user_orders'));
@@ -64,7 +63,6 @@ class orders extends Controller
         $new_company_bid=new BidCompany;
         $new_company_bid ->order_id=$request->input('order-num');
         $new_company_bid ->user_id=$user_id;
-        //$new_company_bid ->price=$request->input('bid-price');
         $new_company_bid->save();
       }
       //if the company has already bidded, update its bid, otherwise insert new bid
@@ -84,6 +82,7 @@ class orders extends Controller
         $new_bid->save();
         //$orders=Order::with(['BidCompany','Bid'])->get();
       //return view('company_order_view_all',compact('orders'));
+      Session::flash('bid-successful', 'Bid successful!');
       return back();
       //return $bid_company_id;
     }
@@ -98,7 +97,6 @@ class orders extends Controller
           $new_company_bid=new BidCompany;
           $new_company_bid ->order_id=$request->input('order-num');
           $new_company_bid ->user_id=$user_id;
-          $new_company_bid ->price=$request->input('bid-price');
           $new_company_bid->save();
         }
 
@@ -109,6 +107,7 @@ class orders extends Controller
         $new_bid->price=$request->input('bid-price');
         $new_bid->message=$request->input('bid-message');
         $new_bid->company_name=$company_name;
+        Session::flash('bid-successful', 'Bid successful!');
         $new_bid->save();
       return back();
     }

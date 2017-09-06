@@ -8,6 +8,7 @@ use App\User;
 use App\Order;
 use App\BidCompany;
 use App\Bid;
+use App\ChatUsers;
 use Auth;
 use App\Mail\EmailVerification;
 use Mail;
@@ -18,7 +19,7 @@ class users extends Controller
 {
     public function index()
     {
-      $client_data=Order::paginate(10);
+      $client_data=Order::orderBy('id','Desc')->paginate(10);
       $count=0;
       foreach($client_data as $client_datum)
       {
@@ -172,5 +173,27 @@ class users extends Controller
         {
            return back()->withInput();
         }
+    }
+    public function registering()
+    {
+      if(Auth::user())
+      {
+        return back();
+      }
+      return view('registering');
+    }
+    public function check_messages()
+    {
+      $company_ids=ChatUsers::where('client_id','=',Auth::id())->pluck('company_id');
+      $count=0;
+      foreach($company_ids as $company_id)
+      {
+        $company_names[$count]=User::where('id','=',$company_id)->value('company_name');
+        $count++;
+      }
+      if(count($company_names))
+      {
+        return $company_names;
+      }
     }
 }

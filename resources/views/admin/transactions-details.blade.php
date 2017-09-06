@@ -68,7 +68,7 @@
                                 <th>住所</th>
                                 <th>電話番号</th>
                             </tr>
-
+                            <?php if($seller){?>
                             <tr>
                                 <td>hire{{$seller[0]['id']}}</td>
                                 <td>{{$seller[0]['email']}}</td>
@@ -79,6 +79,7 @@
                                 <td>{{$seller[0]['address']}}</td>
                                 <td>{{$seller[0]['tel']}}</td>
                             </tr>
+                            <?php } ?>
                         </table>
                     </div>
                    <h3>依頼内容</h3>

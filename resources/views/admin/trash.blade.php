@@ -37,8 +37,22 @@
                                 <td>{{$datum['email']}}</td>
                                 <td>{{$datum['company_name']}}</td>
                                 <td>{{$datum['first_name']}} {{$datum['last_name']}}</td>
+                                @if($datum['company_type']==0)
                                 <td>A (13%)</td>
+                                @elseif($datum['company_type']==1)
+                                <td>A (15%)</td>
+                                @elseif($datum['company_type']==2)
+                                <td>A (20%)</td>
+                                @elseif($datum['company_type']==3)
+                                <td>A (10%)</td>
+                                @endif
+                                @if($datum['admin_approved']==0)
                                 <td>保留</td>
+                                @elseif($datum['admin_approved']==1)
+                                <td>確認済み</td>
+                                @elseif($datum['admin_approved']==2)
+                                <td>Deleted</td>
+                                @endif
                                 <td><a href="/admin-trash-details/{{$datum['id']}}" class="btn btn-default btn-block btn-sm">内容確認</a></td>
                             </tr>
                             @endforeach

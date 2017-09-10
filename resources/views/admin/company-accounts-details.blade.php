@@ -65,20 +65,20 @@
                             </tr>
                             <tr>
                                <th>アカウント種類</th>
-                               @if($data[0]['company_type']==0)
+                               @if($data[0]['company_type']==1)
                                <td>A (13%)</td>
-                               @elseif($data[0]['company_type']==1)
-                               <td>A (15%)</td>
                                @elseif($data[0]['company_type']==2)
-                               <td>A (20%)</td>
+                               <td>A (15%)</td>
                                @elseif($data[0]['company_type']==3)
+                               <td>A (20%)</td>
+                               @elseif($data[0]['company_type']==4)
                                <td>A (10%)</td>
                                @endif
                                <td><select name="company_type">
-                                   <option value="0" <?php if($data[0]['company_type']==0){echo 'selected';}?>>A (13%)</option>
-                                   <option value="1" <?php if($data[0]['company_type']==1){echo 'selected';}?>>B (15%)</option>
-                                   <option value="2" <?php if($data[0]['company_type']==2){echo 'selected';}?>>C (20%)</option>
-                                   <option value="3" <?php if($data[0]['company_type']==3){echo 'selected';}?>>S (10%)</option>
+                                   <option value="1" <?php if($data[0]['company_type']==1){echo 'selected';}?>>A (13%)</option>
+                                   <option value="2" <?php if($data[0]['company_type']==2){echo 'selected';}?>>B (15%)</option>
+                                   <option value="3" <?php if($data[0]['company_type']==3){echo 'selected';}?>>C (20%)</option>
+                                   <option value="4" <?php if($data[0]['company_type']==4){echo 'selected';}?>>S (10%)</option>
                                    </select></td>
                             </tr>
                             <tr>

@@ -19,7 +19,7 @@ class users extends Controller
 {
     public function index()
     {
-      $client_data=Order::orderBy('id','Desc')->paginate(10);
+      $client_data=Order::orderBy('id','Desc')->where('bid_status','<>',2)->paginate(10);
       $count=0;
       foreach($client_data as $client_datum)
       {
@@ -184,16 +184,18 @@ class users extends Controller
     }
     public function check_messages()
     {
-      $company_ids=ChatUsers::where('client_id','=',Auth::id())->pluck('company_id');
+      $company_ids=ChatUsers::where('client_id','=',Auth::id())->get();
       $count=0;
+      $company_names=array();
       foreach($company_ids as $company_id)
       {
-        $company_names[$count]=User::where('id','=',$company_id)->value('company_name');
+        $company_names[$count]=User::where('id','=',$company_id['company_id'])->value('company_name');
         $count++;
       }
       if(count($company_names))
       {
         return $company_names;
       }
+      return;
     }
 }

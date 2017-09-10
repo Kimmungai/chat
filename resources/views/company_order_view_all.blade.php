@@ -15,7 +15,7 @@
     <li class="current"><a href="company_order_view_all">全部</a></li>
 </ol>
 
-@foreach (collect($orders)->reverse() as $order)
+@foreach ($orders as $order)
 <div class="order-card"> <!-- start order card -->
 <div class="row">
     <div class="half">
@@ -23,7 +23,13 @@
     <p><strong>注文名：</strong><span>{{$order['order_name']}}</span></p>
     <p><strong>利用希望台数：</strong><span>{{$order['num_of_cars']}}</span></p>
     <p><strong>希望車種：</strong><span>{{$order['car_type']}}</span></p>
-    <p><strong>状態：<span>未確定</span></strong></p>
+    <p><strong>状態：
+      @if($order['bid_status']==1)
+      <span>確定</span>
+      @elseif($order['bid_status']==0)
+      <span>未確定</span>
+      @endif
+    </strong></p>
     </div>
     <div class="half">
             <p class="hrs">利用時間：{{number_format((time()-strtotime($order['created_at']))/3600)}}時間</p><!--number of hours since bidding-->
@@ -40,13 +46,12 @@
 <hr>
 <div class="row">
     <div class="half">
-        <form id="bid"  action="/bid" method="POST">
             {{ csrf_field() }}
             <p>御社提供の金額:</p>
             <input type="hidden" name="order-num" value="{{$order['id']}}" />
-            <input type="number" name="bid-price" id="bid-price">
-            <input type="hidden" name="bid-message" value="" /><button class="submit active">設定する</button>
-        </form>
+            <input type="number" name="bid-price" id="bid-price{{$order['id']}}" <?php if($order['bid_status']==1){echo 'disabled';}?>>
+            <input type="hidden" name="bid-message" value="" /><?php if($order['bid_status']==0){?><button type="button" class="submit active" onclick="bid({{$order['id']}},document.getElementById('bid-price{{$order['id']}}').value)">設定する</button><?php }?>
+
     </div>
     <div class="quarter">
         <div class="avg">
@@ -72,13 +77,10 @@
 @endforeach
 
 <script>
-$(document).ready(function(){
-  $("#bid").submit(function(event){
-    event.preventDefault();
-    var price=$("#bid-price").val();
-    window.open('/bid-with-comment/{{$order["id"]}}/'+price,'_self');
-  });
-});
+function bid(order_id,price){
+    window.open('/bid-with-comment/'+order_id+'/'+price,'_self');
+
+}
 </script>
 
 </div>

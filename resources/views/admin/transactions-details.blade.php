@@ -1,6 +1,19 @@
 @extends('layouts.admin-layout')
 
 @section('content')
+
+<!-- computing of consumption_tax fee, total and subtotal starts here-->
+<?php $consumption_tax_rate=0.08;?><!--Constant defined consumption tax -->
+<?php $price_agreed=doubleval($closing_bid[0]['price_agreed']);
+      $consumption_tax=$consumption_tax_rate * $price_agreed;
+      if($seller[0]['company_type']==1){$excia_commission=0.13;}
+      elseif($seller[0]['company_type']==2){$excia_commission=0.15;}
+      elseif($seller[0]['company_type']==3){$excia_commission=0.20;}
+      elseif($seller[0]['company_type']==4){$excia_commission=0.10;}
+      $fee=$excia_commission*$price_agreed;
+      $total=$price_agreed+$consumption_tax+$fee;                   ?>
+<!-- computing of consumption_tax fee, total and subtotal ends here-->
+
 <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -22,10 +35,10 @@
                             <tr>
                                 <td>{{$data[0]['created_at']->format('d/m/Y')}}</td>
                                 <td>DFK{{$data[0]['id']}}</td>
-                                <td>¥150,000</td>
-                                <td>¥12,000</td>
-                                <td>¥19,500</td>
-                                <td>¥181,500</td>
+                                <td>¥{{$price_agreed}}</td>
+                                <td>¥{{$consumption_tax}}</td>
+                                <td>¥{{$fee}}</td>
+                                <td>¥{{$total}}</td>
                             </tr>
                         </table>
                         </div>

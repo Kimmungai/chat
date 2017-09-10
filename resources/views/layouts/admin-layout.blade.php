@@ -25,22 +25,22 @@
                         東京ハイヤークラブ
                 </li>
                 <li>
-                    <a href="/admin-company-accounts">ハイヤー会社一覧<small>1</small></a>
+                    <a href="/admin-company-accounts"<?php if(session('active_element')==1) {echo 'class="current"';} ?>>ハイヤー会社一覧<small>1</small></a>
                 </li>
                 <li>
-                    <a href="/admin-client-accounts" class="current">お客様一覧</a>
+                    <a  href="/admin-client-accounts"<?php if(session('active_element')==2) {echo 'class="current"';} ?>>お客様一覧</a>
                 </li>
                 <li>
-                    <a href="/admin-orders">依頼一覧</a>
+                    <a  href="/admin-orders"<?php if(session('active_element')==3) {echo 'class="current"';} ?>>依頼一覧</a>
                 </li>
                 <li>
-                    <a href="/admin-transactions">取引一覧</a>
+                    <a  href="/admin-transactions"<?php if(session('active_element')==4) {echo 'class="current"';} ?>>取引一覧</a>
                 </li>
                 <li>
-                    <a href="/admin-message-hist">メッセージ履歴</a>
+                    <a  href="/admin-message-hist"<?php if(session('active_element')==5) {echo 'class="current"';} ?>>メッセージ履歴</a>
                 </li>
                 <li>
-                    <a href="/admin-trash">ゴミ箱</a>
+                    <a  href="/admin-trash"<?php if(session('active_element')==6) {echo 'class="current"';} ?>>ゴミ箱</a>
                 </li>
             </ul>
         </div>

@@ -5,7 +5,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <a href="#menu-toggle" class="btn btn-success" id="menu-toggle">Menu</a>
-                <a href="admin-orders" class="btn btn-default"><i class="glyphicon glyphicon-backward"></i>  戻る</a>
+                <a href="/admin-orders" class="btn btn-default"><i class="glyphicon glyphicon-backward"></i>  戻る</a>
                 <div class="row">
                     <div class="col-lg-12">
                         <h3>依頼内容</h3>

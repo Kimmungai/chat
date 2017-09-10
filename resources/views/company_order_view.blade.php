@@ -1,8 +1,15 @@
 @extends('layouts.hire_company')
 
 @section('content')
+<!-- computing of consumption_tax fee, total and subtotal starts here-->
+<?php $consumption_tax_rate=0.08;$tax_percent='8%';?><!--Constant defined consumption tax -->
+<?php if(Auth::user()->company_type==1){$excia_commission=0.13;$excia_commission_percent='13%';}
+      elseif(Auth::user()->company_type==2){$excia_commission=0.15;$excia_commission_percent='15%';}
+      elseif(Auth::user()->company_type==3){$excia_commission=0.20;$excia_commission_percent='20%';}
+      elseif(Auth::user()->company_type==4){$excia_commission=0.10;$excia_commission_percent='10%';}            ?>
+<!-- computing of consumption_tax fee, total and subtotal ends here-->
 <div class="hero">
-    <h2>注文内容</h2>
+    <h2>注文内容{{Auth::user()->company_type}}</h2>
 </div>
 <ol class="breadcrumb">
     <li><a href="/">トップ</a></li>
@@ -48,16 +55,16 @@
     <h2>{{ Session::get('bid-successful') }}</h2>
     @endif
     <form action="/bid_with_message" method="POST">
-        {{ csrf_field() }}
+        {{ csrf_field() }}<?php if(Auth::user()->admin_approved==0){echo 'Account unapproved!';} ?><?php if($orders[0]['bid_status']==1){echo 'Bid closed!';} ?>
         <input type="hidden" name="order-num" value="{{$orders[0]['id']}}" />
         <label>金額:</label>
-        <input name="bid-price" type="text" value="<?php if(isset($price)){echo $price;} ?>" required>
-        <p class="youget">提示料金：98,000円</p>
-        <p class="handling">+ 手数料(13%)：12,740円</p>
-        <p class="tax">+ 消費税(8%)：8,859円</p>
+        <input name="bid-price" type="text" onblur="calculate_charges(this.value,{{$consumption_tax_rate}},{{$excia_commission}})" value="<?php if(isset($price)){echo $price;} ?>" required <?php if(Auth::user()->admin_approved==0 || $orders[0]['bid_status']==1){echo 'disabled';} ?>>
+        <p class="youget"></p>
+        <p class="handling"></p>
+        <p class="tax"></p>
         <label>メッセージ:</label>
-        <textarea name="bid-message" rows="6" cols="40" required></textarea>
-        <button type="submit" class="bid">提供する</button>
+        <textarea name="bid-message" rows="6" cols="40" required <?php if(Auth::user()->admin_approved==0 || $orders[0]['bid_status']==1){echo 'disabled';} ?>></textarea>
+        <?php if(Auth::user()->admin_approved==1){ if($orders[0]['bid_status']==0){?><button type="submit" class="bid">提供する</button> <?php }}?>
     </form>
 </div>
 
@@ -128,4 +135,15 @@
 </div>
 
 </div>
+<script>
+  function calculate_charges(input_price,consumption_tax_rate,excia_commission)
+  {
+    var excia_commission_payable=excia_commission * input_price;
+    var consumption_tax_payable=consumption_tax_rate * input_price;
+    var final_amount=input_price -(consumption_tax_payable + excia_commission_payable);
+    $('.youget').html('提示料金：'+final_amount.toLocaleString()+'円');
+    $('.handling').html('+ 手数料({{$excia_commission_percent}})：'+excia_commission_payable.toLocaleString()+'円');
+    $('.tax').html('+ 消費税({{$tax_percent}})：'+consumption_tax_payable.toLocaleString()+'円');
+  }
+</script>
 @endsection

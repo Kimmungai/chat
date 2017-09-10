@@ -26,7 +26,7 @@ Route::post('update_password','users@update_password')->middleware('auth');
 Route::get('cancel_order/{order_id}','users@cancel_order')->middleware('client');
 Route::post('choose_company','users@choose_company')->middleware('client');
 
-Route::post('check-messages','users@check_messages')->middleware('auth');
+Route::get('check-messages','users@check_messages')->middleware('auth');
 
 Route::get('new_order_check', function () {
     return view('new_order_check');
@@ -88,11 +88,13 @@ Route::post('delete_record_permanently','admin@delete_record_permanently')->midd
 
 
 Route::get('admin-message-hist', function () {
+  session(['active_element'=>5]);
     return view('admin.message-hist');
 })->middleware('admin');
 
 
 Route::get('admin-message-details', function () {
+  session(['active_element'=>5]);
     return view('admin.message-details');
 })->middleware('admin');
 

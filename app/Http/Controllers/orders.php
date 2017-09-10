@@ -47,7 +47,7 @@ class orders extends Controller
     }
     public function all_orders()
     {
-      $orders=Order::with(['BidCompany','Bid'])->where('bid_status','<>',2)->get();
+      $orders=Order::with(['BidCompany','Bid'])->where('bid_status','<>',2)->orderBy('id','desc')->get();
       return view('company_order_view_all',compact('orders'));
       //return $orders;
 

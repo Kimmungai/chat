@@ -14,7 +14,7 @@
         <script src="{{url('js/jquery-ui.min.js')}}"></script>
         <script src="{{url('js/jquery.timepicker.min.js')}}"></script>
     </head>
-<bodys>
+<body onload="checkMessages()">
   <nav>
       <link href="http://hiremitsumori.com/css/style.css" rel="stylesheet" media="screen,print">
       <link href="http://hiremitsumori.com/css/bootstrap-grid.min.css" rel="stylesheet" media="screen,print">
@@ -99,7 +99,7 @@
         <div class="chat-container">
         <div class="contact-list">
             <header><h5>メッセージ</h5><a href="#" class="pull-right close"><i class="fa fa-times" aria-hidden="true"></i></a></header>
-            <ul id="chatting-companies">
+            <ul id="company-list">
                 <!--<li><a class="on" href="#">株式会社2<span class="unread">2</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="off" href="#">株式会社3<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
                 <li><a class="on" href="#">株式会社4<i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
@@ -169,7 +169,7 @@
   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
       {{ csrf_field() }}
   </form>
-  <script src="{{url('js/main.js')}}"></script>
+
   <script>
     function logout()
     {
@@ -182,19 +182,21 @@
 
     /* chat starts here*/
     function checkMessages(){
-    $.ajaxSetup({
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.post("/check-messages",
+    $.get("/check-messages",
           {
           },
           function(data,status){
-            alert(data)
+            var count=0;
+            for(count=0;count<data.length;count++)
+            {
+              var list_item='<li><a class="on" href="#">'+data[count]+'<span class="unread">2</span><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>';
+              $('#company-list').append(list_item);
+            }
+
     });
     }
     /* chat ends here*/
   </script>
+  <script src="{{url('js/main.js')}}"></script>
 </body>
 </html>

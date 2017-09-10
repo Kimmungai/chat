@@ -14,6 +14,7 @@ class admin extends Controller
     public function company_accounts()
     {
       $user_data=User::where('user_category','=',0)->where('admin_approved','<>',2)->paginate(10);
+      session(['active_element'=>1]);
       return view('admin.company-accounts',compact('user_data'));
       //return $user_data;
     }
@@ -35,6 +36,7 @@ class admin extends Controller
     public function company_details($company_id)
     {
       $data=User::where('user_category','=',0)->where('id','=',$company_id)->where('admin_approved','<>',2)->get();
+      session(['active_element'=>1]);
       return view('admin.company-accounts-details',compact('data'));
     }
     public function update_company_record(Request $request)
@@ -73,6 +75,7 @@ class admin extends Controller
     public function client_accounts()
     {
       $user_data=User::where('user_category','=',1)->where('admin_approved','<>',2)->paginate(10);
+      session(['active_element'=>2]);
       return view('admin.client-accounts',compact('user_data'));
       //return $user_data;
     }
@@ -116,6 +119,7 @@ class admin extends Controller
     public function admin_orders()
     {
       $data=Order::paginate(10);
+      session(['active_element'=>3]);
       return view('admin.orders',compact('data'));
     }
     public function order_details($order_id)
@@ -130,12 +134,12 @@ class admin extends Controller
         $bidder_latest_price[$count]=Bid::where('bid_company_id','=',$bid_company['id'])->orderBy('id','desc')->value('price');
         $count++;
       }
-
+      session(['active_element'=>3]);
       return view('admin.order-details',compact('data','bid_companies','bidder_email','bidder_name','bidder_latest_price'));
     }
     public function transactions()
     {
-      $data=Order::where('bid_status','=',0)->paginate(10); //get finalized orders
+      $data=Order::where('bid_status','=',1)->paginate(10); //get finalized orders
       $count=0;
       foreach($data as $order)
       {
@@ -148,30 +152,39 @@ class admin extends Controller
 
         $count++;
       }
+      session(['active_element'=>4]);
       return view('admin.transactions',compact('data','client_email','client_name','seller_name','seller_email'));
     }
     public function transaction_details($order_id)
     {
-      $data=Order::with('user')->where('id','=',$order_id)->get();
+      $data=Order::with('user')->where('id','=',$order_id)->where('bid_status','=',1)->get();
       if(count(BidCompany::all()))
       {
         $seller_id=BidCompany::where('order_id','=',$order_id)->whereNotNull('price_agreed')->value('user_id');
         $seller=User::where('id','=',$seller_id)->get();
+        if($seller)
+        {
+          $closing_bid=BidCompany::where('user_id','=',$seller_id)->whereNotNull('price_agreed')->get();
+        }
       }
       else
       {
         $seller=0;
       }
-      return view('admin.transactions-details',compact('data','seller'));
+      session(['active_element'=>4]);
+      return view('admin.transactions-details',compact('data','seller','closing_bid'));
+      //return $data;
     }
     public function deleted_companies()
     {
       $data=User::where('admin_approved','=',2)->paginate(10);
+      session(['active_element'=>6]);
       return view('admin.trash',compact('data'));
     }
     public function deleted_company_details($user_id)
     {
-      $data=user::where('id','=',$user_id)->where('admin_approved','=',2)->get();;
+      $data=user::where('id','=',$user_id)->where('admin_approved','=',2)->get();
+      session(['active_element'=>6]);
       return view('admin.trash-details',compact('data'));
     }
     public function restore_company_record(Request $request)
